@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - APP_NAME=multi-finance-golang-clean-architecture
+      - WEB_PORT=3000
+      - LOG_LEVEL=6
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+      - DB_HOST=localhost
+      - DB_PORT=3306
+      - DB_NAME=multi_finance_golang_clean_architecture
+      - DB_POOL_IDLE=10
+      - DB_POOL_MAX=100
+      - DB_POOL_LIFETIME=300
