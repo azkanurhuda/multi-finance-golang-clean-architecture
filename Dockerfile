@@ -22,22 +22,20 @@ RUN adduser \
 ENV TZ=Asia/Jakarta
 RUN ln -s /usr/share/zoneinfo/$TZ /etc/localtime
 
+RUN mkdir -p /go/src/github.com/azkanurhuda/multi-finance-golang-clean-architecture
+
 # Set default working directory of container
-WORKDIR $GOPATH/src/github.com/azkanurhuda/multi-finance-golang-clean-architecture
+WORKDIR /go/src/github.com/azkanurhuda/multi-finance-golang-clean-architecture
 
 # Copy all
 COPY . .
 
-# Copy env file
-RUN mkdir -p /go/bin
-RUN cp config.json /go/bin
-
 # Copy the database/migration directory
-COPY ./database/migration /go/bin/database/migration
+#COPY ./database/migration /go/bin/database/migration
 
 # Build an excutable app
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
-  -ldflags="-w -s" -o /go/bin/multi-finance ./cmd/web
+  -ldflags="-w -s" -o /go/src/github.com/azkanurhuda/multi-finance-golang-clean-architecture/multi-finance ./cmd/web
 
 ############################
 # STEP 2 build a small image
@@ -57,10 +55,12 @@ COPY --from=builder /etc/passwd /etc/passwd
 COPY --from=builder /etc/group /etc/group
 
 # Copy excutable app and env from builder stage to base stage
-COPY --from=builder /go/bin/multi-finance /go/bin/multi-finance
-COPY --from=builder /go/bin/config.json config.json
+COPY --from=builder /go/src/github.com/azkanurhuda/multi-finance-golang-clean-architecture/multi-finance /go/bin/multi-finance
+COPY --from=builder /go/src/github.com/azkanurhuda/multi-finance-golang-clean-architecture/config.json config.json
+COPY --from=builder /go/src/github.com/azkanurhuda/multi-finance-golang-clean-architecture/database/migration /database/migration
 
 # Set default user
+
 USER appuser:appuser
 
 # Expose app port
