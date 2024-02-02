@@ -1,21 +1,38 @@
-version: '3'
+version: "3.9"
 
 services:
-  app:
+  mysql_multi_finance_db:
+    container_name: mysql_multi_finance_db
+    image: mysql:8.0
+    restart: always
+    volumes:
+      - mysql-multi-finance-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: multi_finance_golang_clean_architecture
+    healthcheck:
+      test: "exit 0"
+    networks:
+      - internal-app-network
+
+  multi-finance-golang-clean-architecture:
+    container_name: multi-finance-golang-clean-architecture
+    restart: on-failure
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
-    environment:
-      - APP_NAME=multi-finance-golang-clean-architecture
-      - WEB_PORT=3000
-      - LOG_LEVEL=6
-      - DB_USERNAME=root
-      - DB_PASSWORD=root
-      - DB_HOST=localhost
-      - DB_PORT=3306
-      - DB_NAME=multi_finance_golang_clean_architecture
-      - DB_POOL_IDLE=10
-      - DB_POOL_MAX=100
-      - DB_POOL_LIFETIME=300
+      - 3000:3000
+    depends_on:
+      mysql_multi_finance_db:
+        condition: service_healthy
+    networks:
+      - internal-app-network
+
+volumes:
+  mysql-multi-finance-data:
+    name: mysql-multi-finance-data
+
+networks:
+  internal-app-network:
+    driver: bridge

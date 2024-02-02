@@ -1,17 +1,67 @@
-# Use the official Golang image as the base image
-FROM golang:1.20
+############################
+# STEP 1 build executable binary
+############################
+FROM golang:1.20-alpine3.18 as builder
 
-# Set the working directory inside the container
-WORKDIR /app
+RUN apk --no-cache update && apk --no-cache add git tzdata
 
-# Copy the local package files to the container's workspace
+# Create appuser.
+ENV USER=appuser
+ENV UID=10001
+
+RUN adduser \
+  --disabled-password \
+  --gecos "" \
+  --home "/nonexistent" \
+  --shell "/sbin/nologin" \
+  --no-create-home \
+  --uid "${UID}" \
+  "${USER}"
+
+# Setting timezone
+ENV TZ=Asia/Jakarta
+RUN ln -s /usr/share/zoneinfo/$TZ /etc/localtime
+
+# Set default working directory of container
+WORKDIR $GOPATH/src/github.com/azkanurhuda/multi-finance-golang-clean-architecture
+
+# Copy all
 COPY . .
 
-# Download and install any dependencies
-RUN go mod tidy && go mod download
+# Copy env file
+RUN mkdir -p /go/bin
+RUN cp config.json /go/bin
 
-# Expose port 3000 to the outside world
+# Build an excutable app
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
+  -ldflags="-w -s" -o /go/bin/multi-finance ./cmd/web
+
+############################
+# STEP 2 build a small image
+############################
+FROM scratch AS base
+
+# Add Maintainer info
+LABEL maintainer="Azka <nurhudaazka@gmail.com>"
+
+# Setting timezone
+ENV TZ=Asia/Jakarta
+COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
+COPY --from=builder /etc/localtime /etc/localtime
+
+# Import the user and group files from the builder.
+COPY --from=builder /etc/passwd /etc/passwd
+COPY --from=builder /etc/group /etc/group
+
+# Copy excutable app and env from builder stage to base stage
+COPY --from=builder /go/bin/multi-finance /go/bin/multi-finance
+COPY --from=builder /go/bin/config.json config.json
+
+# Set default user
+USER appuser:appuser
+
+# Expose app port
 EXPOSE 3000
 
-# Command to run the application using 'go run'
-CMD ["go", "run", "cmd/web/main.go"]
+# Run app
+ENTRYPOINT ["/go/bin/multi-finance"]

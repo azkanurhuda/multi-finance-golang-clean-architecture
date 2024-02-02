@@ -33,11 +33,13 @@ func NewDatabase(viper *viper.Viper, log *logrus.Logger) *gorm.DB {
 	})
 
 	if err != nil {
+		fmt.Println("err2", err)
 		log.Fatalf("failed to connect database: %v", err)
 	}
 
 	connection, err := db.DB()
 	if err != nil {
+		fmt.Println("err3", err)
 		log.Fatalf("failed to connect database: %v", err)
 	}
 
