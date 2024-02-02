@@ -12,6 +12,8 @@ services:
       MYSQL_DATABASE: multi_finance_golang_clean_architecture
     healthcheck:
       test: "exit 0"
+    expose:
+      - '3306'
     networks:
       - internal-app-network
 
@@ -22,7 +24,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 3000:3000
+      - '3000:3000'
     depends_on:
       mysql_multi_finance_db:
         condition: service_healthy

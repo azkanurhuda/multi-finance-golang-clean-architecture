@@ -12,7 +12,7 @@
   "database": {
     "username": "root",
     "password": "root",
-    "host": "127.0.0.1",
+    "host": "mysql_multi_finance_db",
     "port": 3306,
     "name": "multi_finance_golang_clean_architecture",
     "pool": {

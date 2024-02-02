@@ -32,6 +32,9 @@ COPY . .
 RUN mkdir -p /go/bin
 RUN cp config.json /go/bin
 
+# Copy the database/migration directory
+COPY ./database/migration /go/bin/database/migration
+
 # Build an excutable app
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
   -ldflags="-w -s" -o /go/bin/multi-finance ./cmd/web

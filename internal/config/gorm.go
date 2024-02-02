@@ -23,13 +23,10 @@ func NewDatabase(viper *viper.Viper, log *logrus.Logger) *gorm.DB {
 	idleConnection := viper.GetInt("database.pool.idle")
 	maxConnection := viper.GetInt("database.pool.max")
 	maxLifeTimeConnection := viper.GetInt("database.pool.lifetime")
+	//host = "mysql_multi_finance_db"
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", username, password, host, port, database)
-	fmt.Println(username)
-	fmt.Println(password)
-	fmt.Println(host)
-	fmt.Println(port)
-	fmt.Println(database)
+	fmt.Println(dsn)
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: logger.New(&logrusWriter{Logger: log}, logger.Config{
@@ -52,12 +49,12 @@ func NewDatabase(viper *viper.Viper, log *logrus.Logger) *gorm.DB {
 		log.Fatalf("failed to connect database: %v", err)
 	}
 
-	err = doAutoMigrateDB(dsn)
-	if err != nil {
-		log.Fatalf("failed to auto migrate database: %v", err)
-	} else {
-		log.Info("Database migration successful")
-	}
+	//err = doAutoMigrateDB(dsn)
+	//if err != nil {
+	//	log.Fatalf("failed to auto migrate database: %v", err)
+	//} else {
+	//	log.Info("Database migration successful")
+	//}
 
 	connection.SetMaxIdleConns(idleConnection)
 	connection.SetMaxOpenConns(maxConnection)
@@ -67,6 +64,9 @@ func NewDatabase(viper *viper.Viper, log *logrus.Logger) *gorm.DB {
 }
 
 func doAutoMigrateDB(dsn string) error {
+	fmt.Println("====")
+	fmt.Println(dsn)
+	fmt.Println("====")
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		return fmt.Errorf("failed to open database: %v", err)
@@ -78,7 +78,7 @@ func doAutoMigrateDB(dsn string) error {
 	}
 
 	m, err := migrate.NewWithDatabaseInstance(
-		"file://database/migration",
+		"file:///go/bin/database/migration",
 		"mysql",
 		driver,
 	)
