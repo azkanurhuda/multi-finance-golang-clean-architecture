@@ -49,12 +49,12 @@ func NewDatabase(viper *viper.Viper, log *logrus.Logger) *gorm.DB {
 		log.Fatalf("failed to connect database: %v", err)
 	}
 
-	//err = doAutoMigrateDB(dsn)
-	//if err != nil {
-	//	log.Fatalf("failed to auto migrate database: %v", err)
-	//} else {
-	//	log.Info("Database migration successful")
-	//}
+	err = doAutoMigrateDB(dsn)
+	if err != nil {
+		log.Fatalf("failed to auto migrate database: %v", err)
+	} else {
+		log.Info("Database migration successful")
+	}
 
 	connection.SetMaxIdleConns(idleConnection)
 	connection.SetMaxOpenConns(maxConnection)
@@ -78,7 +78,7 @@ func doAutoMigrateDB(dsn string) error {
 	}
 
 	m, err := migrate.NewWithDatabaseInstance(
-		"file:///go/bin/database/migration",
+		"file:///database/migration",
 		"mysql",
 		driver,
 	)
