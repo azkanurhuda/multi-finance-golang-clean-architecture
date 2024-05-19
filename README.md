@@ -22,7 +22,7 @@
 
 ## Documentation
 
-![Documentation](multi_finance.json)
+[Documentation](https://github.com/azkanurhuda/multi-finance-golang-clean-architecture/blob/main/multi_finance.json)
 
 ## Configuration
 
