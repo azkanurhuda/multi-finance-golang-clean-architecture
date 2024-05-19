@@ -60,7 +60,7 @@ COPY --from=builder /etc/group /etc/group
 
 # Copy excutable app and env from builder stage to base stage
 COPY --from=builder /go/bin/multi-finance /go/bin/multi-finance
-COPY --from=builder /go/bin/config.json config.json
+COPY --from=builder /go/bin/app.yaml app.yaml
 
 # Set default user
 USER appuser:appuser

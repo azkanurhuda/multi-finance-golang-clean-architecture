@@ -22,7 +22,7 @@
 
 ## Documentation
 
-![Documentation](multi_finance.json)
+[Documentation](https://github.com/azkanurhuda/multi-finance-golang-clean-architecture/blob/main/multi_finance.json)
 
 ## Configuration
 
@@ -50,6 +50,12 @@ migrate -database "mysql://root:root@tcp(localhost:3306)/multi_finance?charset=u
 
 ```bash
 go run cmd/web/main.go
+```
+
+### Docker Compose
+
+```bash
+docker compose up -d
 ```
 
 ### Docker Compose
