@@ -12,7 +12,7 @@ log:
 database:
   username: "root"
   password: "root"
-  host: "localhost"
+  host: "mysql_multi_finance_db" # localhost
   port: 3306
   name: "multi_finance_golang_clean_architecture"
   pool:
