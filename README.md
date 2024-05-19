@@ -51,3 +51,9 @@ migrate -database "mysql://root:root@tcp(localhost:3306)/multi_finance?charset=u
 ```bash
 go run cmd/web/main.go
 ```
+
+### Docker Compose
+
+```bash
+docker compose up -d
+```
