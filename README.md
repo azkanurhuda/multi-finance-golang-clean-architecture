@@ -57,9 +57,3 @@ go run cmd/web/main.go
 ```bash
 docker compose up -d
 ```
-
-### Docker Compose
-
-```bash
-docker compose up -d
-```
