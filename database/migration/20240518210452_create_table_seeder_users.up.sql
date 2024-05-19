@@ -1,0 +1,2 @@
+INSERT INTO users (id, email, password, role, created_at, updated_at)
+VALUES ('61a928dd-105b-46d3-b7f8-7558f75ca20e', 'nurhudaazka@gmail.com', '$2a$10$o.qvSBrnA7zlf6ewVMj7celzKBcRDeP.4o7eiTMCiEd5aPRyODPZS', 'admin', '2024-05-19 21:56:23.000000', '2024-05-19 21:56:23.000000');

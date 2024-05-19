@@ -1,0 +1,2 @@
+INSERT INTO consumers (id, user_id, nik, full_name, legal_name, phone_number, address, place_of_birth, date_of_birth, salary, created_at, updated_at)
+VALUES ('3a9a2e40-0b74-46ba-81e5-ccad458d8874', '61a928dd-105b-46d3-b7f8-7558f75ca20e', '8492938990111112', 'Azka Nurhuda', 'Azka Nurhuda', '08143924001', 'Sleman, Yogyakarta', 'Sleman', '2000-05-19', 20000000, '2024-05-19 21:56:23.000000', '2024-05-19 21:56:23.000000');

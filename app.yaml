@@ -1,0 +1,25 @@
+app:
+  name: "multi-finance"
+  timezone: "Asia/Jakarta"
+
+server:
+  prefork: false
+  port: 3000
+
+log:
+  level: 6
+
+database:
+  username: "root"
+  password: "root"
+  host: "localhost"
+  port: 3306
+  name: "multi_finance"
+  pool:
+    idle: 10
+    max: 100
+    lifetime: 300
+
+jwt:
+  secret: "!aGfvES7]_Ohv?M"
+  expiration: 10800 # in seconds

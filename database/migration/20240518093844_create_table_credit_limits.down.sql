@@ -1,0 +1,1 @@
+drop table credit_limits;
