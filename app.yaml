@@ -13,9 +13,9 @@ log:
 database:
   username: "root"
   password: "root"
-  host: "localhost" # localhost
+  host: "mysql_multi_finance_db" # localhost
   port: 3306
-  name: "multi_finance"
+  name: "multi_finance_golang_clean_architecture"
   pool:
     idle: 10
     max: 100
