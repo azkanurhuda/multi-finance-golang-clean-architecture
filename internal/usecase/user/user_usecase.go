@@ -26,6 +26,16 @@ type UserUseCase struct {
 	Config     *config.Config
 }
 
+func (c UserUseCase) CountAllUser(ctx context.Context) (int64, error) {
+	data, err := c.Repository.User.CountAllUser(c.DB.WithContext(ctx))
+	if err != nil {
+		c.Log.Warnf("Failed commit transaction : %+v", err)
+		return 0, fiber.ErrInternalServerError
+	}
+
+	return data, nil
+}
+
 func NewUserUseCase(db *gorm.DB, logger *logrus.Logger, validate *validator.Validate, repo *repository.Repository, config *config.Config) UseCase {
 	return &UserUseCase{
 		DB:         db,

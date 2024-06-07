@@ -21,8 +21,9 @@ type App struct {
 }
 
 type ServerConfig struct {
-	Prefork bool `yaml:"prefork"`
-	Port    int  `yaml:"port"`
+	Prefork    bool `yaml:"prefork"`
+	Port       int  `yaml:"port"`
+	SocketPort int  `yaml:"socketPort"`
 }
 
 type Log struct {

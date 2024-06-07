@@ -13,4 +13,5 @@ type UseCase interface {
 	GenerataToken(email string) (*entity.User, error)
 	Current(ctx context.Context, request *model.GetUserRequest) (*model.UserResponse, error)
 	Logout(ctx context.Context, request *model.LogoutUserRequest) (bool, error)
+	CountAllUser(ctx context.Context) (int64, error)
 }

@@ -11,6 +11,7 @@ type User interface {
 	FindByEmail(db *gorm.DB, email string) (*entity.User, error)
 	Create(db *gorm.DB, user *entity.User) error
 	UpdateTokenByEmail(db *gorm.DB, user *entity.User, email string) error
+	CountAllUser(db *gorm.DB) (int64, error)
 }
 
 type Consumer interface {

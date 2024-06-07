@@ -5,6 +5,8 @@ import (
 	"github.com/azkanurhuda/multi-finance-golang-clean-architecture/internal/delivery/http"
 	"github.com/azkanurhuda/multi-finance-golang-clean-architecture/internal/delivery/http/middleware"
 	"github.com/azkanurhuda/multi-finance-golang-clean-architecture/internal/delivery/http/route"
+	"github.com/azkanurhuda/multi-finance-golang-clean-architecture/internal/delivery/socket"
+	"github.com/azkanurhuda/multi-finance-golang-clean-architecture/internal/delivery/socket/user_handler"
 	"github.com/azkanurhuda/multi-finance-golang-clean-architecture/internal/repository"
 	"github.com/azkanurhuda/multi-finance-golang-clean-architecture/internal/usecase/asset"
 	"github.com/azkanurhuda/multi-finance-golang-clean-architecture/internal/usecase/consumer"
@@ -16,6 +18,7 @@ import (
 	"github.com/azkanurhuda/multi-finance-golang-clean-architecture/internal/usecase/user"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
+	socketio "github.com/googollee/go-socket.io"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )
@@ -26,6 +29,7 @@ type BootstrapConfig struct {
 	Log      *logrus.Logger
 	Validate *validator.Validate
 	Config   *config.Config
+	Socket   *socketio.Server
 }
 
 func Bootstrap(cfg *BootstrapConfig) {
@@ -51,6 +55,16 @@ func Bootstrap(cfg *BootstrapConfig) {
 	creditLimitController := http.NewCreditLimitController(cfg.Log, creditLimitUseCase)
 	creditPaymentController := http.NewCreditPaymentController(cfg.Log, creditPaymentUseCase)
 	merchantController := http.NewMerchantController(cfg.Log, merchantUseCase)
+
+	// setup socket handler
+	userSocketHandler := user_handler.NewUserSocketHandler(cfg.Log, userUseCase)
+
+	socketHandler := socket.SocketHandler{
+		Server:            cfg.Socket,
+		App:               cfg.App,
+		UserSocketHandler: userSocketHandler,
+		User:              userUseCase,
+	}
 
 	//setup middleware
 	authMiddleware := middleware.NewAuth(&user.UserUseCase{
@@ -99,4 +113,5 @@ func Bootstrap(cfg *BootstrapConfig) {
 	}
 
 	routeConfig.Setup()
+	socketHandler.RegisterHandlers()
 }

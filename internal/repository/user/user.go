@@ -9,6 +9,15 @@ type User struct {
 	db *gorm.DB
 }
 
+func (u User) CountAllUser(db *gorm.DB) (int64, error) {
+	var count int64
+	// Perform the count query on the users table
+	if err := db.Model(&User{}).Count(&count).Error; err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
 func (u User) FindByToken(db *gorm.DB, token string) (*entity.User, error) {
 	var user entity.User
 	err := db.Where("token = ?", token).First(&user).Error

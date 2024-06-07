@@ -23,12 +23,16 @@ func main() {
 	validate := bootstrap.NewValidator(cfg)
 	app := bootstrap.NewFiber(cfg)
 
+	// initial socket io
+	socket := bootstrap.NewSocketIOServer(cfg)
+
 	bootstrap.Bootstrap(&bootstrap.BootstrapConfig{
 		DB:       db,
 		App:      app,
 		Log:      log,
 		Validate: validate,
 		Config:   cfg,
+		Socket:   socket,
 	})
 
 	webPort := cfg.Server.Port

@@ -5,6 +5,7 @@ app:
 server:
   prefork: false
   port: 3000
+  socketPort: 4000
 
 log:
   level: 6
@@ -12,9 +13,9 @@ log:
 database:
   username: "root"
   password: "root"
-  host: "mysql_multi_finance_db" # localhost
+  host: "localhost" # localhost
   port: 3306
-  name: "multi_finance_golang_clean_architecture"
+  name: "multi_finance"
   pool:
     idle: 10
     max: 100
