@@ -25,6 +25,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - '3000:3000'
+      - '4000:4000'
     depends_on:
       mysql_multi_finance_db:
         condition: service_healthy

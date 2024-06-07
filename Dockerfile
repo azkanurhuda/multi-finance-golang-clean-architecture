@@ -67,6 +67,7 @@ USER appuser:appuser
 
 # Expose app port
 EXPOSE 3000
+EXPOSE 4000
 
 # Run app
 ENTRYPOINT ["/go/bin/multi-finance"]

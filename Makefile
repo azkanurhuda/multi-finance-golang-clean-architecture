@@ -1,6 +1,6 @@
 # Variables
 MIGRATE = migrate
-DB_URL = mysql://root:root@tcp(localhost:3306)/multi_finance?charset=utf8mb4&parseTime=True&loc=Local
+DB_URL = mysql://root:root@tcp(localhost:3306)/multi_finance_golang_clean_architecture?charset=utf8mb4&parseTime=True&loc=Local
 MIGRATION_DIR = database/migration
 MAIN = cmd/web/main.go
 
