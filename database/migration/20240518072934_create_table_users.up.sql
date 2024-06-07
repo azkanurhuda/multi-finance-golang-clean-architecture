@@ -6,7 +6,7 @@ create table users
     role varchar(100) not null,
     token      varchar(255) null,
     token_expired_at timestamp null,
-    created_at timestamp not null,
-    updated_at timestamp not null,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     primary key (id)
 ) engine = InnoDB;
